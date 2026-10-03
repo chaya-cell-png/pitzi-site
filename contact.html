@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>צור קשר | לחץ כאן ואל תלחץ כאן</title>
+  <meta name="description" content="הטופס הכי קל בעולם. מספר טלפון בגלגל מזל ותאריך בשלוליות.">
+  <meta property="og:title" content="צור קשר (בהצלחה) ✉️">
+  <meta property="og:image" content="og/home.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%23FF3B3B' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='36' cy='45' r='9' fill='%23fff'/%3E%3Ccircle cx='64' cy='45' r='9' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&family=Secular+One&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="contact">
+  <main id="main">
+    <section class="hero">
+      <h1>צור קשר</h1>
+      <p>מלא את הטופס הפשוט שלמטה. הוא פשוט מאוד. כמעט.</p>
+      <p class="muted">🔒 פרטיות: הטופס הזה לא נשלח לשום מקום ושום פרט לא נשמר. באמת.</p>
+    </section>
+
+    <form id="impossibleForm" class="card" novalidate>
+      <div class="field">
+        <label for="fName">שם</label>
+        <input id="fName" type="text" autocomplete="off" placeholder="שם (או כינוי של חתול)">
+      </div>
+
+      <div class="field">
+        <span class="label" id="phoneLabel">טלפון</span>
+        <p class="muted">שדות טלפון רגילים זה משעמם. סובב את הגלגל כדי לבחור כל ספרה.</p>
+        <div id="phoneDisplay" class="phone-display" aria-labelledby="phoneLabel" aria-live="polite">__________</div>
+        <div class="wheel-wrap">
+          <div class="wheel-pointer" aria-hidden="true">▼</div>
+          <svg id="wheel" class="wheel" viewBox="0 0 240 240" role="img" aria-label="גלגל מזל עם הספרות 0 עד 9"></svg>
+        </div>
+        <div class="row" style="justify-content:center">
+          <button id="spinBtn" class="btn btn-red" type="button">סובב! 🎡</button>
+          <button id="phoneBack" class="btn btn-white" type="button">מחק ספרה</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="label">תאריך מועדף ליצירת קשר</span>
+        <p class="muted">כל קפיצה לשלולית מוסיפה אחד. מאוד מדויק. מאוד רטוב.</p>
+        <div class="puddles">
+          <button id="dayPuddle" class="puddle" type="button" aria-label="שלולית הימים. כל קפיצה מוסיפה יום"></button>
+          <button id="monthPuddle" class="puddle" type="button" aria-label="שלולית החודשים. כל קפיצה מוסיפה חודש"></button>
+        </div>
+        <p id="dateDisplay" class="date-display" aria-live="polite"></p>
+      </div>
+
+      <div class="field">
+        <label for="fMsg">הודעה</label>
+        <textarea id="fMsg" placeholder="כתוב לנו משהו. אנחנו מבטיחים לא לקרוא (כי זה לא נשלח)."></textarea>
+      </div>
+
+      <div class="row">
+        <button class="btn btn-teal" type="submit">שלח ✉️</button>
+        <button id="cancelBtn" class="btn btn-white" type="button">ביטול</button>
+      </div>
+      <div id="formResult" class="form-result" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="js/core.js"></script>
+</body>
+</html>

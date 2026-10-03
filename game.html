@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>פיצי רץ! | לחץ כאן ואל תלחץ כאן</title>
+  <meta name="description" content="משחק ריצה בסגנון הדינוזאור של גוגל, עם כפתור אדום שלא מפסיק לדבר.">
+  <meta property="og:title" content="פיצי רץ! 🏃 המשחק">
+  <meta property="og:description" content="הדינוזאור של גוגל, רק עגול, אדום ודברן. כמה תצליח לרוץ?">
+  <meta property="og:image" content="og/home.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%23FF3B3B' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='36' cy='45' r='9' fill='%23fff'/%3E%3Ccircle cx='64' cy='45' r='9' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&family=Secular+One&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="game">
+  <main id="main">
+    <nav class="game-tabs" aria-label="משחקים">
+      <a class="btn btn-teal" href="game.html" aria-current="page">🏃 פיצי רץ!</a>
+      <a class="btn btn-white" href="whack.html">🔵 הכה בכפתור הכחול</a>
+    </nav>
+
+    <section class="hero">
+      <h1>פיצי רץ!</h1>
+      <p>כמו הדינוזאור של גוגל, רק עגול, אדום ודברן. ובעברית, אז רצים שמאלה.</p>
+    </section>
+
+    <section class="card runner-card">
+      <canvas id="runner" class="runner-canvas" tabindex="0" role="img"
+        aria-label="משחק ריצה: פיצי רץ ומכשולים מתקרבים. רווח או חץ למעלה לקפיצה, חץ למטה להתכופפות"></canvas>
+      <div class="runner-controls">
+        <button id="runnerJump" class="btn btn-red" type="button" data-quiet>קפוץ ⬆️</button>
+        <button id="runnerDuck" class="btn btn-teal" type="button" data-quiet>התכופף ⬇️</button>
+      </div>
+      <p id="runnerBest" class="center press-count"></p>
+      <p id="runnerLive" class="visually-hidden" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>מה יש בדרך?</h2>
+      <ul class="runner-legend">
+        <li>🔵 <b>כפתור כחול</b>: האויב המושבע של פיצי. לפעמים מגיע בזוג.</li>
+        <li>🧦 <b>גרב בודדת</b>: השנייה עדיין לא נמצאה.</li>
+        <li>🍪 <b>עוגייה מתגלגלת</b>: מהירה יותר מכל השאר.</li>
+        <li>🍳 <b>מחבת</b>, 🐱 <b>חתול שלא זז</b>, 📄 <b>ערימת תנאי שימוש</b>.</li>
+        <li>🐦 <b>יונה עם ביטחון עצמי</b> ו־⏳ <b>פס טעינה מעופף</b>: מופיעים מ-300 נקודות. לפעמים קופצים, לפעמים מתכופפים.</li>
+      </ul>
+      <p class="muted">טיפ: ב-700 נקודות מחשיך. אל תיבהל, זה רק הלילה.</p>
+    </section>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="js/core.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>הכה בכפתור הכחול | לחץ כאן ואל תלחץ כאן</title>
+  <meta name="description" content="כפתורים כחולים קופצים מהחורים. תלחץ עליהם! רק לא על פיצי.">
+  <meta property="og:title" content="הכה בכפתור הכחול! 🔵">
+  <meta property="og:description" content="30 שניות. תשעה חורים. כפתור אדום אחד שאסור ללחוץ עליו.">
+  <meta property="og:image" content="og/home.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%23FF3B3B' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='36' cy='45' r='9' fill='%23fff'/%3E%3Ccircle cx='64' cy='45' r='9' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&family=Secular+One&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="whack">
+  <main id="main">
+    <nav class="game-tabs" aria-label="משחקים">
+      <a class="btn btn-white" href="game.html">🏃 פיצי רץ!</a>
+      <a class="btn btn-teal" href="whack.html" aria-current="page">🔵 הכה בכפתור הכחול</a>
+    </nav>
+
+    <section class="hero">
+      <h1>הכה בכפתור הכחול!</h1>
+      <p>כחול = ללחוץ. אדום = פיצי = <strong>לא</strong> ללחוץ. מה כבר יכול להשתבש?</p>
+    </section>
+
+    <section class="card whack-card">
+      <div class="whack-hud">
+        <div class="whack-stat">ניקוד <b id="whackScore">0</b></div>
+        <div class="whack-time" aria-hidden="true"><div id="whackBar"></div></div>
+        <div class="whack-stat">⏱️ <b id="whackTime">30.0</b></div>
+      </div>
+      <p id="whackCombo" class="whack-combo" aria-hidden="true"></p>
+      <p id="whackTalk" class="whack-talk"></p>
+      <div id="whackBoard" class="whack-board" role="group" aria-label="לוח המשחק: תשעה חורים. מקשים 1 עד 9"></div>
+      <div class="actions">
+        <button id="whackStart" class="btn btn-red" type="button">התחל! 🔨</button>
+      </div>
+      <p id="whackBest" class="center press-count"></p>
+      <p id="whackLive" class="visually-hidden" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>מי יוצא מהחורים?</h2>
+      <ul class="runner-legend">
+        <li>🔵 <b>כפתור כחול</b> עם פרצוף מתנשא: +1. הוא יודע מה הוא עשה.</li>
+        <li>🟡 <b>כפתור זהב</b> עם כתר: +5. נדיר, ובורח מהר.</li>
+        <li>🍪 <b>עוגייה</b>: עוד 3 שניות למשחק.</li>
+        <li>🔴 <b>פיצי</b>: −3. הוא מתחבא שם, אבל אסור ללחוץ עליו. זה כל העניין של האתר.</li>
+      </ul>
+      <p class="muted">במקלדת: המקשים 1 עד 9 לוחצים על החורים, לפי המספרים שבפינה.</p>
+    </section>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="js/core.js"></script>
+</body>
+</html>

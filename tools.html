@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>כלים מאוד חשובים | לחץ כאן ואל תלחץ כאן</title>
+  <meta name="description" content="מחולל תירוצים, מחשבון מתווכח, חזאי מזג רוח ושעון שהולך אחורה. כלים שאף אחד לא ביקש.">
+  <meta property="og:title" content="כלים מאוד חשובים 🛠️">
+  <meta property="og:image" content="og/home.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%23FF3B3B' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='36' cy='45' r='9' fill='%23fff'/%3E%3Ccircle cx='64' cy='45' r='9' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&family=Secular+One&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="tools">
+  <main id="main">
+    <section class="hero">
+      <h1>כלים מאוד חשובים</h1>
+      <p>נבדקו בקפידה על ידי אף אחד.</p>
+    </section>
+
+    <section class="card">
+      <h2>מחולל תירוצים 🙊</h2>
+      <p>מאחר? לא נורא. יש לנו תירוץ לכל מצב. כולם נכונים לחלוטין (לא).</p>
+      <div id="excuseOut" class="output" aria-live="polite">לחץ על הכפתור לקבלת תירוץ טרי.</div>
+      <div class="row">
+        <button id="excuseBtn" class="btn btn-red" type="button">תן לי תירוץ!</button>
+        <button id="excuseCopy" class="btn btn-white" type="button">העתק</button>
+        <a id="excuseShare" class="btn btn-teal" href="#" target="_blank" rel="noopener">שלח בוואטסאפ</a>
+      </div>
+    </section>
+
+    <section class="grid2">
+      <div class="card">
+        <h2>מחשבון מתווכח 🧮</h2>
+        <p>הוא יודע לחשב. הוא רק לא בטוח שהוא מסכים עם עצמו.</p>
+        <div class="calc">
+          <label for="calcInput" class="visually-hidden">תרגיל</label>
+          <input id="calcInput" class="calc-screen" type="text" inputmode="decimal" autocomplete="off" placeholder="2+2">
+          <div id="calcKeys" class="calc-keys"></div>
+        </div>
+        <div id="calcOut" class="output calc-answer" aria-live="polite">כתוב תרגיל ולחץ =</div>
+      </div>
+
+      <div class="card">
+        <h2>חזאי מזג רוח 🌦️</h2>
+        <p>תחזית מדויקת* למצב הרוח שלך לפי השעה.<br><small class="muted">*לא מדויקת</small></p>
+        <div id="moodOut" aria-live="polite"></div>
+        <label for="moodHour" class="muted">בדוק שעה אחרת: <span id="moodHourLabel"></span></label>
+        <input id="moodHour" class="mood-hour" type="range" min="0" max="23" step="1">
+      </div>
+    </section>
+
+    <section class="card center">
+      <h2>השעון האמיתי ⏰</h2>
+      <p>כל השעונים בעולם הולכים לכיוון הלא נכון. רק השעון הזה צודק.</p>
+      <button id="reverseClock" class="clock-face" type="button" aria-label="השעון האמיתי. לחץ כדי לשאול את פיצי">00:00:00</button>
+      <p id="clockNote" class="muted" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="js/core.js"></script>
+</body>
+</html>

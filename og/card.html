@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <title>כרטיס שיתוף</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&family=Secular+One&display=swap">
+  <!-- כרטיס 1200x630 לתמונות og:image. מצולם ל-PNG עם make-og.ps1 -->
+  <style>
+    html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      font-family: Rubik, sans-serif; color: #1A1A1A; background-color: #FFF8E7;
+      background-image: radial-gradient(rgba(26,26,26,.09) 2px, transparent 2.4px); background-size: 28px 28px;
+    }
+    .card {
+      position: absolute; inset: 36px; display: flex; align-items: center; gap: 40px; padding: 40px 56px;
+      background: #fff; border: 8px solid #1A1A1A; border-radius: 40px; box-shadow: 14px 14px 0 #1A1A1A;
+      transform: rotate(-1deg);
+    }
+    .text { flex: 1; }
+    .kicker { font: 600 34px Rubik, sans-serif; margin: 0; }
+    .name { font: 400 132px/1.05 'Secular One', sans-serif; color: #C81E1E; margin: 4px 0 12px; }
+    .desc { font-size: 31px; line-height: 1.35; margin: 0; }
+    .art { width: 380px; height: 380px; flex: none; }
+    .art svg { width: 100%; height: 100%; }
+    .brand {
+      position: absolute; left: 70px; bottom: 6px; font: 400 30px 'Secular One', sans-serif;
+      background: #FFD93D; border: 5px solid #1A1A1A; border-radius: 18px; padding: 2px 22px; transform: rotate(2deg);
+    }
+    .big-red {
+      width: 330px; height: 330px; border-radius: 50%; flex: none; display: grid; place-items: center;
+      font: 400 64px 'Secular One', sans-serif; color: #fff; text-shadow: 4px 4px 0 #1A1A1A;
+      background: radial-gradient(circle at 35% 30%, #ff8a8a, #FF3B3B 45%, #C81E1E);
+      border: 10px solid #1A1A1A; box-shadow: 0 20px 0 #7a1010, 0 20px 0 10px #1A1A1A;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="card"></div>
+  <script src="../js/quiz-data.js"></script>
+  <script>
+    (function () {
+      var id = new URLSearchParams(location.search).get('r');
+      var t = window.QUIZ_DATA.TOOLS[id];
+      var card = document.getElementById('card');
+      if (t) {
+        card.innerHTML = '<div class="text"><p class="kicker">איזה כלי מטבח אני? יצא לי:</p><p class="name">' + t.name + '!</p><p class="desc">' + t.text + '</p></div>' +
+          '<div class="art">' + t.art + '</div><div class="brand">לחץ כאן ואל תלחץ כאן 🔴</div>';
+      } else {
+        card.innerHTML = '<div class="text"><p class="kicker">אתר הגימיקים הכי מצחיק ברשת</p><p class="name" style="font-size:104px">לחץ כאן<br>ואל תלחץ כאן</p>' +
+          '<p class="desc">יש פה כפתור אחד שאסור ללחוץ עליו. בהצלחה.</p></div><div class="big-red">אל תלחץ</div>';
+      }
+    })();
+  </script>
+</body>
+</html>

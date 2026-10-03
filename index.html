@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>לחץ כאן ואל תלחץ כאן</title>
+  <meta name="description" content="אתר הגימיקים הכי מצחיק ברשת. יש בו כפתור אחד שאסור ללחוץ עליו. בהצלחה.">
+  <meta property="og:title" content="לחץ כאן ואל תלחץ כאן 🔴">
+  <meta property="og:description" content="יש פה כפתור שאסור ללחוץ עליו. אני בטוח שתתאפק.">
+  <meta property="og:image" content="og/home.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%23FF3B3B' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='36' cy='45' r='9' fill='%23fff'/%3E%3Ccircle cx='64' cy='45' r='9' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&family=Secular+One&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home">
+  <main id="main">
+    <section class="hero" data-fall>
+      <h1>אל תלחץ על הכפתור.</h1>
+      <p>ברצינות. הוא חדש. הוא עוד לא התרגל לאנשים.</p>
+    </section>
+
+    <section class="card center" data-fall>
+      <button id="dontPress" class="big-red" type="button" data-quiet>אל תלחץ</button>
+      <p id="pressCount" class="press-count" aria-live="polite">עוד לא לחצת. כל הכבוד על האיפוק.</p>
+    </section>
+
+    <section class="card" data-fall>
+      <h2>כפתור מנומס במיוחד</h2>
+      <p>הוא ממש רוצה שתלחץ עליו. הוא רק קצת ביישן. וזריז.</p>
+      <div id="playground" class="playground">
+        <button id="runaway" class="btn btn-teal" type="button" data-quiet>לחץ עליי!</button>
+      </div>
+    </section>
+
+    <section class="grid2">
+      <div class="card" data-fall>
+        <h2>כפתור גרביטציה</h2>
+        <p>מה יקרה אם נדליק את כוח המשיכה קצת יותר מדי? אפשר גם לגרור דברים אחרי שהם נופלים.</p>
+        <button id="gravityBtn" class="btn btn-purple" type="button">הפעל גרביטציה</button>
+      </div>
+      <div class="card" data-fall>
+        <h2>מצב חתול</h2>
+        <p>שמונה חתולים מצוירים מחפשים משהו לרדוף אחריו. יש לך סמן? מעולה.</p>
+        <button id="catBtn" class="btn" type="button" aria-pressed="false">שחרר את החתולים 🐱</button>
+      </div>
+    </section>
+
+    <section class="card" data-fall>
+      <h2>לאן עכשיו?</h2>
+      <div class="row">
+        <a class="btn btn-teal" href="tools.html">כלים מאוד חשובים 🛠️</a>
+        <a class="btn" href="quiz.html">איזה כלי מטבח אתה? 🍳</a>
+        <a class="btn btn-red" href="game.html">פיצי רץ! משחק 🏃</a>
+        <a class="btn btn-teal" href="whack.html">הכה בכפתור הכחול 🔵</a>
+        <a class="btn btn-white" href="contact.html">צור קשר (בהצלחה) ✉️</a>
+        <a class="btn btn-white" href="page-that-does-not-exist.html">עמוד שלא קיים 🔦</a>
+      </div>
+    </section>
+
+    <section class="card center" data-fall>
+      <p id="globalCounter" class="lead" aria-live="polite"></p>
+      <p class="muted">רמז: לאתר יש מקש סודי למקרה שהבוס עובר מאחוריך. ואולי גם קוד סודי עם חיצים.</p>
+    </section>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="js/core.js"></script>
+</body>
+</html>

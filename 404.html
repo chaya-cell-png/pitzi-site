@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // GitHub Pages מגיש את העמוד הזה בכל כתובת שגויה, גם עמוק בתוך תיקיות.
+    // לכן קובעים בסיס כדי שהקישורים לקבצי האתר לא יישברו.
+    (function () {
+      if (location.protocol === 'file:') return;
+      var seg = location.pathname.split('/')[1];
+      var base = /\.github\.io$/.test(location.hostname) && seg && seg.indexOf('.') === -1 ? '/' + seg + '/' : '/';
+      document.write('<base href="' + base + '">');
+    })();
+  </script>
+  <title>העמוד אבד | לחץ כאן ואל תלחץ כאן</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%23FF3B3B' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='36' cy='45' r='9' fill='%23fff'/%3E%3Ccircle cx='64' cy='45' r='9' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&family=Secular+One&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="404">
+  <main id="main">
+    <div id="lostRoom" class="lost-room">
+      <section class="center">
+        <p class="big404">404</p>
+        <h1>העמוד הלך לאיבוד.</h1>
+        <p class="lead">פיצי יצא לחפש אותו עם פנס. תזיז את העכבר (או את האצבע) כדי להאיר את החדר.</p>
+      </section>
+    </div>
+  </main>
+  <div class="dark" id="dark" aria-hidden="true"></div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="js/core.js"></script>
+</body>
+</html>
