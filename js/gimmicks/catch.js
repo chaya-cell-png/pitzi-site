@@ -6,6 +6,7 @@
   const BODY_R = 26, BASKET_W = 90, BASKET_H = 22, MAX_LIVES = 3;
   const EGG_FROM = 8, EGG_SPREAD = 7; // הביצה המרקדת מופיעה בוודאות פעם בסיבוב, בין 8 ל-14 (לפני גשם העוגיות הראשון)
   const SHOWER_EVERY = 17, SHOWER_FRAMES = 240; // גשם קצר (4 שניות) כל 17 נקודות. בזמן הגשם אי אפשר לאבד לבבות
+  const GRACE_FRAMES = 60; // עוד שנייה של הגנה אחרי שהגשם נגמר
   const DROPS_PER_HEART = 2; // כמה עוגיות צריכות ליפול לרצפה כדי שיירד לב
   const SCORE_EGG = 50;      // ביצת הפתעה נסתרת למי שמגיע לניקוד הזה בסיבוב אחד
 
@@ -53,7 +54,7 @@
   let W = 760, H = 400, FLOOR = H - 22, BASKET_Y = 0;
   let state = 'ready', last = 0, frame = 0, deadAt = 0;
   let px, targetX, items, crumbs, floats, clouds, spawnIn, score, lives, streak, best, bubble;
-  let drops, lastMilestone, level, hurtUntil, shakeUntil, happyUntil, showerUntil, nextShowerAt, eggSpawned, eggAt;
+  let drops, lastMilestone, level, hurtUntil, shakeUntil, happyUntil, showerUntil, graceUntil, nextShowerAt, eggSpawned, eggAt;
   const keys = { left: false, right: false };
 
   function layout() {
@@ -65,12 +66,13 @@
     px = targetX = W / 2;
     items = []; crumbs = []; floats = []; spawnIn = 40;
     score = 0; lives = MAX_LIVES; streak = 0; drops = 0; bubble = null; lastMilestone = 0; level = 1;
-    hurtUntil = 0; shakeUntil = 0; happyUntil = 0; showerUntil = 0; nextShowerAt = SHOWER_EVERY; eggSpawned = false;
+    hurtUntil = 0; shakeUntil = 0; happyUntil = 0; showerUntil = 0; graceUntil = 0; nextShowerAt = SHOWER_EVERY; eggSpawned = false;
     eggAt = EGG_FROM + Math.floor(Math.random() * EGG_SPREAD);
     if (!clouds) clouds = Array.from({ length: 4 }, (_, i) => ({ x: i * W / 3.5, y: 30 + Math.random() * 60, s: 0.7 + Math.random() * 0.6 }));
   }
   const say = (text, ms = 2400) => { bubble = { text, until: performance.now() + ms }; };
   const showering = () => frame < showerUntil;
+  const protectedNow = () => showering() || frame < graceUntil; // בזמן הגשם ועוד שנייה אחריו
 
   /* ---------- לוגיקה ---------- */
   function start() {
@@ -86,7 +88,7 @@
 
   function addItem(type) {
     const r = { cookie: 15, gold: 16, heart: 14, blue: 16, egg: 17 }[type];
-    const it = { type, r, x: r + 10 + Math.random() * (W - r * 2 - 20), y: -r, vy: fallSpeed() * (0.85 + Math.random() * 0.3), rot: Math.random() * 6 };
+    const it = { type, r, x: r + 10 + Math.random() * (W - r * 2 - 20), y: -r, vy: fallSpeed() * (0.85 + Math.random() * 0.3), rot: Math.random() * 6, fromShower: showering() };
     if (type === 'egg') { it.vy = 1.6; it.baseX = Math.max(140, Math.min(W - 140, it.x)); it.phase = Math.random() * 6; }
     items.push(it);
   }
@@ -129,7 +131,7 @@
   function caught(it) {
     burstCrumbs(it.x, BASKET_Y, it.type === 'blue' ? '#3B82F6' : it.type === 'heart' ? '#FF3B3B' : '#C98B4F', 9);
     if (it.type === 'blue') {
-      if (showering()) { say('כפתור כחול בזמן הגשם? לא נחשב! 😎', 1600); return; }
+      if (protectedNow()) { say('כפתור כחול בזמן הגשם? לא נחשב! 😎', 1600); return; }
       floatText('−❤', it.x, BASKET_Y - 10, '#1E3A8A');
       return loseLife(P.rand(BLUE), true);
     }
@@ -213,7 +215,7 @@
         if (it.type === 'egg') say(EGG_MISSED);
         else if (it.type === 'cookie' || it.type === 'gold') {
           burstCrumbs(it.x, FLOOR, '#C98B4F', 6);
-          if (!showering()) { // בזמן הגשם פספוס לא נחשב
+          if (!protectedNow() && !it.fromShower) { // עוגייה מהגשם, או בזמן ההגנה, לא נחשבת אף פעם
             drops++;
             streak = 0;
             if (drops % DROPS_PER_HEART === 0) {
@@ -228,6 +230,7 @@
     if (wasShowering && !showering()) {
       // הגשם הבא: בכפולה הבאה של SHOWER_EVERY אחרי הניקוד שבסוף הגשם
       nextShowerAt = (Math.floor(score / SHOWER_EVERY) + 1) * SHOWER_EVERY;
+      graceUntil = frame + GRACE_FRAMES;
       say(SHOWER_END);
     }
   }
@@ -376,13 +379,13 @@
     }
     // כמה עוגיות כבר נפלו לקראת הלב הבא (עוגייה סדוקה ליד הלבבות)
     const pending = drops % DROPS_PER_HEART;
-    if (pending && !showering()) {
+    if (pending && !protectedNow()) {
       drawCookie(22 + MAX_LIVES * 26 + 6, 23, 9, 0, false);
       line('#1A1A1A', 2); ctx.beginPath(); ctx.moveTo(22 + MAX_LIVES * 26 + 2, 16); ctx.lineTo(22 + MAX_LIVES * 26 + 8, 23); ctx.lineTo(22 + MAX_LIVES * 26 + 4, 30); ctx.stroke();
       ctx.font = '600 13px Rubik, sans-serif'; ctx.fillStyle = '#1A1A1A'; ctx.direction = 'ltr'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
       ctx.fillText(`${pending}/${DROPS_PER_HEART}`, 22 + MAX_LIVES * 26 + 20, 24);
     }
-    if (showering()) {
+    if (protectedNow()) {
       ctx.font = '600 13px Rubik, sans-serif'; ctx.fillStyle = '#C81E1E'; ctx.direction = 'rtl'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
       ctx.fillText('🛡️ מוגן', 22 + MAX_LIVES * 26, 24);
     }
