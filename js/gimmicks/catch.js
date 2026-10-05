@@ -4,8 +4,10 @@
 (function () {
   const P = window.Pitzi;
   const BODY_R = 26, BASKET_W = 90, BASKET_H = 22, MAX_LIVES = 3;
-  const EGG_FROM = 14, EGG_SPREAD = 9; // הביצה המרקדת מופיעה בוודאות פעם בסיבוב, בין 14 ל-22 (לפני גשם העוגיות הראשון)
-  const SHOWER_EVERY = 25, SHOWER_FRAMES = 360;
+  const EGG_FROM = 8, EGG_SPREAD = 7; // הביצה המרקדת מופיעה בוודאות פעם בסיבוב, בין 8 ל-14 (לפני גשם העוגיות הראשון)
+  const SHOWER_EVERY = 17, SHOWER_FRAMES = 240; // גשם קצר (4 שניות) כל 17 נקודות. בזמן הגשם אי אפשר לאבד לבבות
+  const DROPS_PER_HEART = 2; // כמה עוגיות צריכות ליפול לרצפה כדי שיירד לב
+  const SCORE_EGG = 50;      // ביצת הפתעה נסתרת למי שמגיע לניקוד הזה בסיבוב אחד
 
   /* ---------- משפטים ---------- */
   const START = [
@@ -20,7 +22,7 @@
   const BLUE = ['אוי! תפסתי כפתור כחול! איכס, איכס, איכס!', 'כפתור כחול בסל?! מי הכניס אותו לשמיים?', 'הכפתור הכחול נחת לי בסל. אני צריך סל חדש.'];
   const MISS = ['הרצפה אכלה עוגייה. הרצפה שמחה. אני לא.', 'פספוס! העוגייה הזאת תחסר לי.', 'חוק חמש השניות? לא חל על עוגיות של פיצי.'];
   const LAST_LIFE = 'נשאר לנו לב אחד! בלי לחץ. טוב, עם קצת לחץ.';
-  const MILESTONES = {
+  const FIRST_DROP = ['עוגייה אחת נפלה. עוד אחת, ויורד לב!', 'אופס, עוגייה על הרצפה. זה עדיין בסדר... פעם אחת.', 'נפלה אחת! הלב מחזיק מעמד, אבל הוא מתחיל להזיע.'];  const MILESTONES = {
     10: 'עשר עוגיות! הסל מתחיל להיות כבד.',
     20: 'עשרים! אני מרגיש כמו מאפייה מהלכת.',
     30: 'שלושים! מעכשיו קוראים לי "פיצי השף".',
@@ -32,7 +34,7 @@
   const MORE = n => `${n}! העוגיות מתחילות להתלונן על התור.`;
   const STREAK = { 10: 'רצף של 10 בלי פספוס! ידיים מגנטיות!', 25: 'רצף 25! העוגיות פשוט קופצות אליך.', 50: 'רצף 50!!! אתה לא תופס עוגיות, הן תופסות אותך.' };
   const LEVEL_UP = ['שלב חדש! השמיים מתחילים לזרוק מהר יותר.', 'עלית שלב! מישהו שם למעלה ממהר.', 'שלב חדש! העוגיות עשו חימום.'];
-  const SHOWER = ['🍪 גשם עוגיות!!! תפוס הכל! אין פה כפתורים כחולים!', '🍪 התפרצות עוגיות! זה הרגע שלך!'];
+  const SHOWER = ['🍪 גשם עוגיות!!! עכשיו אי אפשר לאבד לבבות, רק לצבור נקודות!', '🍪 התפרצות עוגיות! בזמן הגשם שום דבר לא נחשב נגדך. תפוס הכל!'];
   const SHOWER_END = 'הגשם נגמר. זה היה הרגע הכי טעים בחיים שלי.';
   const EGG_APPEAR = 'מה זה?! ביצה מרקדת! תפוס אותה! היא זזה מצד לצד!';
   const EGG_CAUGHT = 'תפסת את הביצה המרקדת!!! 🥚 היא רקדה ישר לסל!';
@@ -51,7 +53,7 @@
   let W = 760, H = 400, FLOOR = H - 22, BASKET_Y = 0;
   let state = 'ready', last = 0, frame = 0, deadAt = 0;
   let px, targetX, items, crumbs, floats, clouds, spawnIn, score, lives, streak, best, bubble;
-  let lastMilestone, level, hurtUntil, shakeUntil, happyUntil, showerUntil, nextShowerAt, eggSpawned, eggAt;
+  let drops, lastMilestone, level, hurtUntil, shakeUntil, happyUntil, showerUntil, nextShowerAt, eggSpawned, eggAt;
   const keys = { left: false, right: false };
 
   function layout() {
@@ -62,7 +64,7 @@
   function reset() {
     px = targetX = W / 2;
     items = []; crumbs = []; floats = []; spawnIn = 40;
-    score = 0; lives = MAX_LIVES; streak = 0; bubble = null; lastMilestone = 0; level = 1;
+    score = 0; lives = MAX_LIVES; streak = 0; drops = 0; bubble = null; lastMilestone = 0; level = 1;
     hurtUntil = 0; shakeUntil = 0; happyUntil = 0; showerUntil = 0; nextShowerAt = SHOWER_EVERY; eggSpawned = false;
     eggAt = EGG_FROM + Math.floor(Math.random() * EGG_SPREAD);
     if (!clouds) clouds = Array.from({ length: 4 }, (_, i) => ({ x: i * W / 3.5, y: 30 + Math.random() * 60, s: 0.7 + Math.random() * 0.6 }));
@@ -126,7 +128,11 @@
 
   function caught(it) {
     burstCrumbs(it.x, BASKET_Y, it.type === 'blue' ? '#3B82F6' : it.type === 'heart' ? '#FF3B3B' : '#C98B4F', 9);
-    if (it.type === 'blue') { floatText('−❤', it.x, BASKET_Y - 10, '#1E3A8A'); return loseLife(P.rand(BLUE), true); }
+    if (it.type === 'blue') {
+      if (showering()) { say('כפתור כחול בזמן הגשם? לא נחשב! 😎', 1600); return; }
+      floatText('−❤', it.x, BASKET_Y - 10, '#1E3A8A');
+      return loseLife(P.rand(BLUE), true);
+    }
     happyUntil = frame + 14;
     if (it.type === 'heart') { lives = Math.min(MAX_LIVES, lives + 1); P.sound('tweet'); floatText('+❤', it.x, BASKET_Y - 10, '#C81E1E'); say(P.rand(HEART)); return; }
     if (it.type === 'egg') {
@@ -145,9 +151,9 @@
 
     const m = Math.floor(score / 10) * 10;
     const newLevel = 1 + Math.floor(score / 20);
-    if (score >= nextShowerAt) {
-      nextShowerAt += SHOWER_EVERY;
+    if (score >= nextShowerAt && !showering()) { // בזמן גשם לא מתחיל גשם חדש, אחרת הוא מתארך בלי סוף
       showerUntil = frame + SHOWER_FRAMES;
+      nextShowerAt = Infinity; // ייקבע מחדש כשהגשם ייגמר
       say(P.rand(SHOWER), 2600);
       P.sound('boing');
     } else if (STREAK[streak]) say(STREAK[streak]);
@@ -157,6 +163,10 @@
     else if (Math.random() < 0.1 && !bubble) say(P.rand(CATCH), 1100);
     if (m > lastMilestone) lastMilestone = m;
     level = Math.max(level, newLevel);
+    if (score >= SCORE_EGG && P.egg('baker')) {
+      say('🥚 רגע, מה זה בתחתית הסל?! מצאת ביצת הפתעה נסתרת! מגיע לך תואר "מאפייה מהלכת".', 3600);
+      P.burst({ particleCount: 140, spread: 110, origin: { y: 0.5 } });
+    }
   }
 
   function gameOver(line) {
@@ -203,13 +213,23 @@
         if (it.type === 'egg') say(EGG_MISSED);
         else if (it.type === 'cookie' || it.type === 'gold') {
           burstCrumbs(it.x, FLOOR, '#C98B4F', 6);
-          loseLife(P.rand(MISS));
-          if (state !== 'running') return;
+          if (!showering()) { // בזמן הגשם פספוס לא נחשב
+            drops++;
+            streak = 0;
+            if (drops % DROPS_PER_HEART === 0) {
+              loseLife(P.rand(MISS));
+              if (state !== 'running') return;
+            } else say(P.rand(FIRST_DROP), 1800);
+          }
         }
       }
     }
     items = items.filter(it => !it.done);
-    if (wasShowering && !showering()) say(SHOWER_END);
+    if (wasShowering && !showering()) {
+      // הגשם הבא: בכפולה הבאה של SHOWER_EVERY אחרי הניקוד שבסוף הגשם
+      nextShowerAt = (Math.floor(score / SHOWER_EVERY) + 1) * SHOWER_EVERY;
+      say(SHOWER_END);
+    }
   }
 
   /* ---------- ציור ---------- */
@@ -353,6 +373,18 @@
       ctx.bezierCurveTo(x - 13, y - 1, x - 5, y - 11, x, y - 3);
       ctx.bezierCurveTo(x + 5, y - 11, x + 13, y - 1, x, y + 8);
       ctx.fill(); ctx.stroke();
+    }
+    // כמה עוגיות כבר נפלו לקראת הלב הבא (עוגייה סדוקה ליד הלבבות)
+    const pending = drops % DROPS_PER_HEART;
+    if (pending && !showering()) {
+      drawCookie(22 + MAX_LIVES * 26 + 6, 23, 9, 0, false);
+      line('#1A1A1A', 2); ctx.beginPath(); ctx.moveTo(22 + MAX_LIVES * 26 + 2, 16); ctx.lineTo(22 + MAX_LIVES * 26 + 8, 23); ctx.lineTo(22 + MAX_LIVES * 26 + 4, 30); ctx.stroke();
+      ctx.font = '600 13px Rubik, sans-serif'; ctx.fillStyle = '#1A1A1A'; ctx.direction = 'ltr'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(`${pending}/${DROPS_PER_HEART}`, 22 + MAX_LIVES * 26 + 20, 24);
+    }
+    if (showering()) {
+      ctx.font = '600 13px Rubik, sans-serif'; ctx.fillStyle = '#C81E1E'; ctx.direction = 'rtl'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText('🛡️ מוגן', 22 + MAX_LIVES * 26, 24);
     }
     // לוח ניקוד על רקע לבן, כדי שהעננים לא יסתירו אותו
     ctx.fillStyle = 'rgba(255,255,255,.9)'; line('#1A1A1A', 2.5);
