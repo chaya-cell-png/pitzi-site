@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>תפוס את העוגיות | לחץ כאן ואל תלחץ כאן</title>
+  <meta name="description" content="עוגיות נופלות מהשמיים ופיצי מחזיק סל. כמה תספיק לתפוס?">
+  <meta property="og:title" content="תפוס את העוגיות! 🍪">
+  <meta property="og:description" content="גשם של עוגיות, סל אחד וכפתור אדום. אל תפיל אף עוגייה!">
+  <meta property="og:image" content="https://chaya-cell-png.github.io/pitzi-site/og/home.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%23FF3B3B' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='36' cy='45' r='9' fill='%23fff'/%3E%3Ccircle cx='64' cy='45' r='9' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800&family=Secular+One&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="catch">
+  <main id="main">
+    <nav class="game-tabs" aria-label="משחקים">
+      <a class="btn btn-white" href="game.html">🏃 פיצי רץ!</a>
+      <a class="btn btn-white" href="whack.html">🔵 הכה בכפתור הכחול</a>
+      <a class="btn btn-teal" href="catch.html" aria-current="page">🍪 תפוס את העוגיות</a>
+    </nav>
+
+    <section class="hero">
+      <h1>תפוס את העוגיות!</h1>
+      <p>מישהו הפך את צנצנת העוגיות בשמיים. פיצי מחזיק סל, ואתה מזיז אותו.</p>
+    </section>
+
+    <section class="card catch-card">
+      <canvas id="catchCanvas" class="catch-canvas" tabindex="0" role="img"
+        aria-label="משחק תפיסה: עוגיות נופלות ופיצי עם סל זז ימינה ושמאלה. חיצים או עכבר מזיזים, רווח מתחיל"></canvas>
+      <p id="catchBest" class="center press-count"></p>
+      <p id="catchLive" class="visually-hidden" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>מה נופל מהשמיים?</h2>
+      <ul class="runner-legend">
+        <li>🍪 <b>עוגייה</b>: +1. אם היא נופלת לרצפה, יורד לב.</li>
+        <li>🟡 <b>עוגיית זהב</b>: +5. גם אותה אסור להפיל.</li>
+        <li>❤️ <b>לב</b>: חיים נוספים, עד שלושה.</li>
+        <li>🔵 <b>כפתור כחול</b>: אסור לתפוס! הוא מוריד לב. תזוז ממנו.</li>
+        <li>🍪🍪 <b>גשם עוגיות</b>: כל 25 נקודות השמיים נפתחים לכמה שניות. הרבה עוגיות, אפס כפתורים כחולים.</li>
+        <li>🥚 <b>???</b>: משהו צבעוני ורוקד מופיע פעם בסיבוב, למי שמגיע רחוק מספיק. כדאי לתפוס.</li>
+      </ul>
+      <p class="muted">שליטה: עכבר או אצבע על הלוח, או החיצים ימינה ושמאלה. כל 20 נקודות עולים שלב, והשמיים זורקים קצת יותר מהר.</p>
+    </section>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script defer src="js/core.js"></script>
+</body>
+</html>

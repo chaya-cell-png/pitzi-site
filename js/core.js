@@ -8,11 +8,11 @@
     'loading-bar', 'banana-cursor', 'sleepy', 'konami', 'crying-tab', 'scroll-react',
     'animal-sounds', 'boss-mode', 'end-of-internet', 'eggs', 'egg-hints',
     'cookies', 'dont-press', 'runaway', 'gravity', 'cat-mode', 'global-counter',
-    'excuses', 'calculator', 'mood', 'reverse-clock',
-    'impossible-form', 'cancel', 'quiz', 'lost-404', 'terms', 'runner', 'whack',
+    'excuses', 'calculator', 'mood', 'reverse-clock', 'compliments', 'wasted-time',
+    'impossible-form', 'cancel', 'quiz', 'lost-404', 'terms', 'runner', 'whack', 'catch',
     // סודות: אין להם כפתור. הם מתגלים רק לפי ההתנהגות של הגולש
     'secrets/same-button', 'secrets/hover-beg', 'secrets/party-mode', 'secrets/special-time',
-    'secrets/returning', 'secrets/sound-toggle', 'secrets/semicolon'
+    'secrets/returning', 'secrets/sound-toggle', 'secrets/semicolon', 'secrets/select-copy'
   ];
 
   const EGGS = {
@@ -29,7 +29,8 @@
     terms: 'קראת את האותיות הקטנות',
     party: 'מצב מסיבה סודי',
     runner: 'רץ למרחקים',
-    whack: 'מכה מקצועית'
+    whack: 'מכה מקצועית',
+    catch: 'הביצה המרקדת'
   };
 
   // הסודות לא מופיעים ברשימה. רק המספר שלהם מוצג, כדי שיהיה מה לחפש
@@ -42,7 +43,8 @@
     time: 'שעה מיוחדת',
     returning: 'פיצי זוכר',
     soundToggle: 'נגן הסאונד',
-    semicolon: 'הנקודה-פסיק החסרה'
+    semicolon: 'הנקודה-פסיק החסרה',
+    selectCopy: 'סימון והעתקה'
   };
 
   const store = {
@@ -225,7 +227,7 @@
   };
 
   /* ---------- כותרת וניווט ---------- */
-  const NAV = [['index.html', 'בית', 'home'], ['tools.html', 'כלים', 'tools'], ['quiz.html', 'מבחן', 'quiz'], ['game.html', 'משחקים', ['game', 'whack']], ['contact.html', 'צור קשר', 'contact']];
+  const NAV = [['index.html', 'בית', 'home'], ['tools.html', 'כלים', 'tools'], ['quiz.html', 'מבחן', 'quiz'], ['game.html', 'משחקים', ['game', 'whack', 'catch']], ['contact.html', 'צור קשר', 'contact']];
   function buildHeader() {
     const skip = el('a', 'skip', 'דלג לתוכן');
     skip.href = '#main';
